@@ -98,7 +98,7 @@ class PortForwardApp:
 
         self.load_config()
 
-        tk.Label(root, text="Wybierz Jumphost:", font=("Arial", 12)).pack(pady=5)
+        tk.Label(root, text="Select Jumphost:", font=("Arial", 12)).pack(pady=5)
 
         self.jumphost_var = tk.StringVar(
             value=self.jumphosts[0] if self.jumphosts else ""
@@ -113,7 +113,7 @@ class PortForwardApp:
 
         self.jumphost_menu.pack(pady=5)
 
-        tk.Label(root, text="Hasło do Jumphost:", font=("Arial", 12)).pack(pady=5)
+        tk.Label(root, text="Jumphost Password:", font=("Arial", 12)).pack(pady=5)
 
         self.password_var = tk.StringVar()
 
@@ -128,12 +128,12 @@ class PortForwardApp:
         self.password_entry.pack(pady=5)
 
         tk.Label(root,
-                 text="Usługi do przekierowania:",
+                 text="Services to forward:",
                  font=("Arial", 14)).pack(pady=10)
 
         self.service_names = list(self.services.keys())
 
-        columns = ("Usługa", "Port", "Zdalny host", "Status", "URL")
+        columns = ("Service", "Port", "Remote Host", "Status", "URL")
 
         self.tree = ttk.Treeview(
             root,
@@ -156,38 +156,38 @@ class PortForwardApp:
         btn_style = {"font": ("Arial", 11), "width": 20, "height": 2}
 
         tk.Button(button_frame,
-                  text="Uruchom przekierowanie",
+                  text="Start Forwarding",
                   command=self.start_forwarding,
                   bg="#4CAF50",
                   **btn_style).pack(side="left", padx=5)
 
         tk.Button(button_frame,
-                  text="Zatrzymaj przekierowanie",
+                  text="Stop Forwarding",
                   command=self.stop_forwarding,
                   bg="#d9534f",
                   **btn_style).pack(side="left", padx=5)
 
         tk.Button(button_frame,
-                  text="Otwórz w przeglądarce",
+                  text="Open in Browser",
                   command=self.open_browser,
                   bg="#2196F3",
                   **btn_style).pack(side="left", padx=5)
 
         tk.Button(button_frame,
-                  text="Zatrzymaj wszystkie",
+                  text="Stop All",
                   command=self.stop_all_forwardings,
                   bg="#f57c00",
                   **btn_style).pack(side="left", padx=5)
 
         tk.Button(button_frame,
-                  text="Odśwież aktywne",
+                  text="Refresh Active",
                   command=self.refresh_active_forwardings,
                   bg="#9C27B0",
                   **btn_style).pack(side="left", padx=5)
 
         self.status_label = tk.Label(
             root,
-            text="Status: 0 aktywnych przekierowań",
+            text="Status: 0 active tunnels",
             font=("Arial", 12)
         )
 
@@ -257,7 +257,7 @@ class PortForwardApp:
         sel = self.tree.selection()
 
         if not sel:
-            messagebox.showerror("Błąd", "Wybierz usługę")
+            messagebox.showerror("Error", "Please select a service")
             return None
 
         return sel[0]
@@ -272,13 +272,13 @@ class PortForwardApp:
             return
 
         if name in self.active_forwardings:
-            messagebox.showinfo("Info", "Już działa")
+            messagebox.showinfo("Info", "Already running")
             return
 
         password = self.password_var.get()
 
         if not password:
-            messagebox.showerror("Błąd", "Podaj hasło")
+            messagebox.showerror("Error", "Please enter the password")
             return
 
         local_port, remote_host, remote_port, url = self.services[name]
@@ -326,7 +326,7 @@ class PortForwardApp:
             return
 
         if name not in self.active_forwardings:
-            messagebox.showinfo("Info", "Nie działa")
+            messagebox.showinfo("Info", "Not running")
             return
 
         ssh_client, forward_thread = self.active_forwardings[name]
@@ -358,7 +358,7 @@ class PortForwardApp:
     def refresh_active_forwardings(self):
 
         if not self.active_forwardings:
-            messagebox.showinfo("Info", "Brak aktywnych połączeń")
+            messagebox.showinfo("Info", "No active tunnels")
             return
 
         running = list(self.active_forwardings.keys())
@@ -366,7 +366,7 @@ class PortForwardApp:
         password = self.password_var.get()
 
         if not password:
-            messagebox.showerror("Błąd", "Podaj hasło")
+            messagebox.showerror("Error", "Please enter the password")
             return
 
         userhost = self.jumphost_var.get()
@@ -418,7 +418,7 @@ class PortForwardApp:
         self.refresh_tree()
         self.update_status()
 
-        messagebox.showinfo("Info", "Aktywne połączenia odświeżone")
+        messagebox.showinfo("Info", "Active tunnels refreshed")
 
     # ---------------- BROWSER ----------------
 
@@ -439,7 +439,7 @@ class PortForwardApp:
     def update_status(self):
 
         self.status_label.config(
-            text=f"Status: {len(self.active_forwardings)} aktywnych przekierowań"
+            text=f"Status: {len(self.active_forwardings)} active tunnel(s)"
         )
 
 

@@ -2,6 +2,8 @@
 
 A lightweight desktop application for managing SSH port forwarding tunnels through a jumphost. Built with Python and Tkinter, TunnelDesk provides a clean graphical interface to quickly spin up and tear down port forwards to internal services — no terminal required.
 
+<img src="tunnel.png" width="600" alt="TunnelDesk screenshot"/>
+
 ---
 
 ## Features
