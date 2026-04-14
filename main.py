@@ -197,23 +197,36 @@ class PortForwardApp:
 
     def load_config(self):
 
-        GCP_URL = "https://europe-west1-mcrtechsystem-development.cloudfunctions.net/getConfigs?topic=connections"
+        remote_url = None
 
         if os.path.exists(CONFIG_FILE):
             try:
                 with open(CONFIG_FILE, "r") as f:
                     data = json.load(f)
-                self.jumphosts = data.get("jumphosts", [])
-                self.services = data.get("services", {})
-                return
+                remote_url = data.get("remote_url", None)
+                jumphosts = data.get("jumphosts", [])
+                services = data.get("services", {})
+                if jumphosts or services:
+                    self.jumphosts = jumphosts
+                    self.services = services
+                    return
             except Exception as e:
                 messagebox.showwarning(
                     "Config error",
                     f"Failed to read connections.json:\n{e}"
                 )
 
+        if not remote_url:
+            self.jumphosts = []
+            self.services = {}
+            messagebox.showwarning(
+                "Config error",
+                "No local config found and no remote_url configured."
+            )
+            return
+
         try:
-            r = requests.get(GCP_URL, timeout=5)
+            r = requests.get(remote_url, timeout=5)
             r.raise_for_status()
             data = r.json()
             self.jumphosts = data.get("jumphosts", [])
