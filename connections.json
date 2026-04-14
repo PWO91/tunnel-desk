@@ -1,0 +1,56 @@
+{
+  "jumphosts": [
+    "admin@jumphost.example.com",
+    "user@bastion.example.com"
+  ],
+  "services": {
+    "Service-1": [
+      5601,
+      "node-01.example.com",
+      5601,
+      "http://localhost:5601"
+    ],
+    "Service-2": [
+      9200,
+      "node-02.example.com",
+      9200,
+      "http://localhost:9200"
+    ],
+    "Service-3": [
+      3000,
+      "node-03.example.com",
+      3000,
+      "http://localhost:3000"
+    ],
+    "Service-4": [
+      18083,
+      "node-04.example.com",
+      18083,
+      "http://localhost:18083"
+    ],
+    "Service-5": [
+      8086,
+      "node-05.example.com",
+      8080,
+      "http://localhost:8086"
+    ],
+    "Service-6": [
+      8087,
+      "node-06.example.com",
+      81,
+      "http://localhost:8087"
+    ],
+    "Service-7": [
+      8006,
+      "node-07.example.com",
+      8006,
+      "http://localhost:8006"
+    ],
+    "Service-8": [
+      9090,
+      "node-08.example.com",
+      9090,
+      "http://localhost:9090"
+    ]
+  }
+}
